@@ -10,6 +10,8 @@ export interface MatchResult {
   date: string
   myName: string
   partnerName: string
+  partnerBirthDate: string
+  partnerImageUrl: string
   score: number
   wuxingConclusion: string
   explanation: string[]

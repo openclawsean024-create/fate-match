@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
-import type { Person } from '../types'
+import type { Person, MatchResult } from '../types'
 import { runMatch } from '../utils/bazi'
 import { addToHistory } from '../utils/storage'
 import MatchResultCard from './MatchResultCard'
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function MatchEngine({ myData, selectedPartner }: Props) {
-  const [result, setResult] = useState<ReturnType<typeof runMatch> | null>(null)
+  const [result, setResult] = useState<MatchResult | null>(null)
   const [loading, setLoading] = useState(false)
 
   const canMatch = myData && selectedPartner
@@ -23,7 +23,7 @@ export default function MatchEngine({ myData, selectedPartner }: Props) {
 
     await new Promise(r => setTimeout(r, 2500))
 
-    const matchResult = runMatch(myData!, selectedPartner!)
+    const matchResult = await runMatch(myData!, selectedPartner!)
     addToHistory(matchResult)
     setResult(matchResult)
     setLoading(false)

@@ -194,10 +194,14 @@ function getWuxingConclusion(score: number, myWuxing: Record<string, number>, pa
   return `挑戰緣分：${myStrong}與${partnerStrong}差異明顯，需用心經營方能美滿。`
 }
 
-export function runMatch(myData: { name: string; birthDate: string }, partner: { name: string; birthDate: string }): {
+import { generatePartnerImage } from './photoGenerator'
+
+export async function runMatch(myData: { name: string; birthDate: string }, partner: { name: string; birthDate: string }): Promise<{
   id: string; date: string; myName: string; partnerName: string
+  partnerBirthDate: string
   score: number; wuxingConclusion: string; explanation: string[]; radarData: RadarItem[]
-} {
+  partnerImageUrl: string
+}> {
   const myBazi = calcBazi(myData.birthDate)
   const partnerBazi = calcBazi(partner.birthDate)
 
@@ -219,14 +223,19 @@ export function runMatch(myData: { name: string; birthDate: string }, partner: {
     { dimension: '水', myValue: myWuxing['水'], partnerValue: partnerWuxing['水'] },
   ]
 
+  // 取得 AI 形象照
+  const partnerImageUrl = await generatePartnerImage(partner.birthDate)
+
   return {
     id: Date.now().toString(),
     date: new Date().toISOString(),
     myName: myData.name,
     partnerName: partner.name,
+    partnerBirthDate: partner.birthDate,
     score,
     wuxingConclusion: conclusion,
     explanation: explanations,
     radarData,
+    partnerImageUrl,
   }
 }
