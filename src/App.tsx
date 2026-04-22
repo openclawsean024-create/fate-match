@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Heart, BookOpen, Clock, Sparkles } from 'lucide-react'
+import { Heart, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react'
 import MyDataForm from './components/MyDataForm'
 import PartnerList from './components/PartnerList'
 import MatchEngine from './components/MatchEngine'
 import MatchResultCard from './components/MatchResultCard'
 import HistoryPanel from './components/HistoryPanel'
+import RegionPhotos from './components/RegionPhotos'
 import type { Person, MatchResult, Tab } from './types'
 import { loadMyData } from './utils/storage'
 
@@ -42,6 +43,7 @@ export default function App() {
   const tabs: { key: Tab; label: string; icon: typeof Heart }[] = [
     { key: 'myData', label: '我的資料', icon: BookOpen },
     { key: 'matchList', label: '對象名單', icon: Heart },
+    { key: 'regionPhotos', label: '地區照片', icon: MapPin },
     { key: 'history', label: '歷史記錄', icon: Clock },
   ]
 
@@ -113,6 +115,12 @@ export default function App() {
               />
             )}
           </>
+        )}
+
+        {tab === 'regionPhotos' && (
+          <div className="bg-purple-950/60 rounded-2xl p-5 border border-purple-500/20">
+            <RegionPhotos />
+          </div>
         )}
 
         {tab === 'history' && (

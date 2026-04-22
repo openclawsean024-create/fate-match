@@ -24,4 +24,4 @@ export interface RadarItem {
   partnerValue: number
 }
 
-export type Tab = 'myData' | 'matchList' | 'history'
+export type Tab = 'myData' | 'matchList' | 'regionPhotos' | 'history'
