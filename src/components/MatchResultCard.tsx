@@ -19,7 +19,8 @@ export default function MatchResultCard({ result }: Props) {
     const zodiac = getZodiacName(result.partnerBirthDate)
     // 使用伴侶姓名+生肖作為 seed，確保每次都是同一張圖
     const seed = `${result.partnerName}${zodiac}`
-    fetch(`https://randomuser.me/api/?seed=${encodeURIComponent(seed)}&gender=male&inc=picture`)
+    const gender = result.partnerGender || 'female'
+    fetch(`https://randomuser.me/api/?seed=${encodeURIComponent(seed)}&gender=${gender}&inc=picture`)
       .then(r => r.json())
       .then(d => {
         if (d.results?.[0]?.picture?.large) {
@@ -30,7 +31,7 @@ export default function MatchResultCard({ result }: Props) {
         // 維持 fallback DiceBear URL
       })
       .finally(() => setImgLoading(false))
-  }, [result.partnerBirthDate, result.partnerName])
+  }, [result.partnerBirthDate, result.partnerName, result.partnerGender])
 
   function handleShare() {
     const card = cardRef.current
@@ -112,7 +113,7 @@ export default function MatchResultCard({ result }: Props) {
   }))
 
   const scoreColor = result.score >= 80 ? '#10b981' : result.score >= 60 ? '#f59e0b' : '#ec4899'
-  const zodiacLabel = getZodiacName(result.partnerName)
+  const zodiacLabel = getZodiacName(result.partnerBirthDate)
 
   return (
     <div>

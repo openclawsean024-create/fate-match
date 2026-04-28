@@ -109,7 +109,7 @@ export default function App() {
             />
             {selectedPartner && (
               <MatchEngine
-                key={matchKey}
+                key={`${matchKey}-${myData?.gender ?? 'female'}`}
                 myData={myData}
                 selectedPartner={selectedPartner}
               />
