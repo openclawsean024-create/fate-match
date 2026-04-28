@@ -3,6 +3,7 @@ export interface Person {
   name: string
   birthDate: string // YYYY-MM-DD
   birthTime?: string // HH:MM (optional, for time-based adjustments)
+  gender?: 'male' | 'female' // 'male'=命定天子 (seeks female), 'female'=命定天女 (seeks male)
 }
 
 export interface MatchResult {
@@ -12,6 +13,7 @@ export interface MatchResult {
   partnerName: string
   partnerBirthDate: string
   partnerImageUrl: string
+  partnerGender: 'male' | 'female' // opposite of my gender: male→female, female→male
   score: number
   wuxingConclusion: string
   explanation: string[]

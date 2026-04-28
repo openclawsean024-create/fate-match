@@ -17,9 +17,9 @@ export default function MatchResultCard({ result }: Props) {
   useEffect(() => {
     setImgLoading(true)
     const zodiac = getZodiacName(result.partnerBirthDate)
-    // 使用伴侶姓名+生肖作為 seed，確保每次都是同一張圖
-    const seed = `${result.partnerName}${zodiac}`
     const gender = result.partnerGender || 'female'
+    // Include gender in seed so male/female requests cache separately
+    const seed = `${result.partnerName}${zodiac}${gender}`
     fetch(`https://randomuser.me/api/?seed=${encodeURIComponent(seed)}&gender=${gender}&inc=picture`)
       .then(r => r.json())
       .then(d => {

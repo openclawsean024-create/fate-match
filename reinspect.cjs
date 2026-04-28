@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 
-const BASE = 'https://fate-match-e6o3hub3h-seans-projects-7dc76219.vercel.app';
+const BASE = 'https://fate-match.vercel.app';
 const results = [];
 let browser;
 

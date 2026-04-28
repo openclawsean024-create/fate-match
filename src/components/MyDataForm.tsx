@@ -10,6 +10,7 @@ interface Props {
 export default function MyDataForm({ onSaved }: Props) {
   const [name, setName] = useState('')
   const [birthDate, setBirthDate] = useState('')
+  const [gender, setGender] = useState<'male' | 'female'>('female')
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState('')
 
@@ -18,6 +19,7 @@ export default function MyDataForm({ onSaved }: Props) {
     if (existing) {
       setName(existing.name)
       setBirthDate(existing.birthDate)
+      if (existing.gender) setGender(existing.gender)
     }
   }, [])
 
@@ -46,7 +48,7 @@ export default function MyDataForm({ onSaved }: Props) {
 
   function handleSave() {
     if (!validate()) return
-    const person: Person = { id: 'my-data', name: name.trim(), birthDate }
+    const person: Person = { id: 'my-data', name: name.trim(), birthDate, gender }
     saveMyData(person)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
@@ -61,6 +63,38 @@ export default function MyDataForm({ onSaved }: Props) {
       </div>
 
       <div className="space-y-4">
+        {/* Gender toggle: 命定天子 / 命定天女 */}
+        <div>
+          <label className="block text-sm text-purple-300 mb-2">性別（選擇命定類型）</label>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setGender('male')}
+              className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${
+                gender === 'male'
+                  ? 'bg-blue-600 text-white border-2 border-blue-400 shadow-lg shadow-blue-500/30'
+                  : 'bg-purple-900/30 text-purple-400 border-2 border-transparent hover:border-purple-500/30'
+              }`}
+            >
+              ♂ 命定天子
+            </button>
+            <button
+              type="button"
+              onClick={() => setGender('female')}
+              className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${
+                gender === 'female'
+                  ? 'bg-pink-600 text-white border-2 border-pink-400 shadow-lg shadow-pink-500/30'
+                  : 'bg-purple-900/30 text-purple-400 border-2 border-transparent hover:border-purple-500/30'
+              }`}
+            >
+              ♀ 命定天女
+            </button>
+          </div>
+          <p className="text-purple-600 text-xs mt-1 text-center">
+            {gender === 'male' ? '想認識女性伴侶' : '想認識男性伴侶'}
+          </p>
+        </div>
+
         <div>
           <label className="block text-sm text-purple-300 mb-1">姓名</label>
           <input

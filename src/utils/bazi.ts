@@ -80,8 +80,16 @@ function mergeWuxing(a: Record<string, number>, b: Record<string, number>): Reco
 function generateExplanation(
   myBazi: { year: string; month: string; day: string; hour: string },
   partnerBazi: { year: string; month: string; day: string; hour: string },
+  partnerGender: 'male' | 'female'
 ): string[] {
   const explanations: string[] = []
+
+  // 性別專屬外貌描述（根據 spec v6.1 第 2.1 節）
+  if (partnerGender === 'male') {
+    explanations.push('對方具備堅毅气质，輪廓分明，眼神深邃而堅定。')
+  } else {
+    explanations.push('對方散發柔雅韻味，舉止間流露溫婉靈秀的氣質。')
+  }
 
   const yStemMy = myBazi.year[0]
   const yStemPartner = partnerBazi.year[0]
@@ -196,7 +204,10 @@ function getWuxingConclusion(score: number, myWuxing: Record<string, number>, pa
 
 import { generatePartnerImage } from './photoGenerator'
 
-export async function runMatch(myData: { name: string; birthDate: string }, partner: { name: string; birthDate: string }): Promise<{
+export async function runMatch(
+  myData: { name: string; birthDate: string; gender?: 'male' | 'female' },
+  partner: { name: string; birthDate: string }
+): Promise<{
   id: string; date: string; myName: string; partnerName: string
   partnerBirthDate: string
   score: number; wuxingConclusion: string; explanation: string[]; radarData: RadarItem[]
@@ -213,7 +224,12 @@ export async function runMatch(myData: { name: string; birthDate: string }, part
 
   const score = calcScore(myBazi, partnerBazi, myWuxing, partnerWuxing)
   const conclusion = getWuxingConclusion(score, myWuxing, partnerWuxing)
-  const explanations = generateExplanation(myBazi, partnerBazi)
+
+  // 根據我的性別來決定對方的性別（命定天子找女性伴侶，反之亦然）
+  const myGender: 'male' | 'female' = myData.gender || 'female'
+  const partnerGender: 'male' | 'female' = myGender === 'male' ? 'female' : 'male'
+
+  const explanations = generateExplanation(myBazi, partnerBazi, partnerGender)
 
   const radarData: RadarItem[] = [
     { dimension: '木', myValue: myWuxing['木'], partnerValue: partnerWuxing['木'] },
@@ -223,8 +239,8 @@ export async function runMatch(myData: { name: string; birthDate: string }, part
     { dimension: '水', myValue: myWuxing['水'], partnerValue: partnerWuxing['水'] },
   ]
 
-  // 取得 AI 形象照
-  const partnerImageUrl = await generatePartnerImage(partner.birthDate)
+  // 取得 AI 形象照（傳入我的性別，photoGenerator 會反向選擇對方性別）
+  const partnerImageUrl = await generatePartnerImage(partner.birthDate, myGender)
 
   return {
     id: Date.now().toString(),
@@ -237,5 +253,6 @@ export async function runMatch(myData: { name: string; birthDate: string }, part
     explanation: explanations,
     radarData,
     partnerImageUrl,
+    partnerGender,
   }
 }
