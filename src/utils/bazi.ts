@@ -22,15 +22,15 @@ const BRANCH_POSITIONS: Record<string, number> = {
   午: 6, 未: 7, 申: 8, 酉: 9, 戌: 10, 亥: 11,
 }
 
-function getStemIndex(year: number): number {
+export function getStemIndex(year: number): number {
   return (((year - 4) % 10) + 10) % 10
 }
 
-function getBranchIndex(year: number): number {
+export function getBranchIndex(year: number): number {
   return (((year - 4) % 12) + 12) % 12
 }
 
-function getStemFromDay(dateStr: string): { stemIndex: number; branchIndex: number } {
+export function getStemFromDay(dateStr: string): { stemIndex: number; branchIndex: number } {
   const date = new Date(dateStr)
   const baseDate = new Date(1984, 1, 6)
   const diffDays = Math.floor((date.getTime() - baseDate.getTime()) / 86400000)
@@ -73,11 +73,11 @@ export function calcWuxingBalance(bazi: string): Record<string, number> {
   return scores
 }
 
-function mergeWuxing(a: Record<string, number>, b: Record<string, number>): Record<string, number> {
+export function mergeWuxing(a: Record<string, number>, b: Record<string, number>): Record<string, number> {
   return { 木: a.木 + b.木, 火: a.火 + b.火, 土: a.土 + b.土, 金: a.金 + b.金, 水: a.水 + b.水 }
 }
 
-function generateExplanation(
+export function generateExplanation(
   myBazi: { year: string; month: string; day: string; hour: string },
   partnerBazi: { year: string; month: string; day: string; hour: string },
   partnerGender: 'male' | 'female'
@@ -150,7 +150,7 @@ function generateExplanation(
   return explanations.slice(0, 5)
 }
 
-function calcScore(
+export function calcScore(
   myBazi: { year: string; month: string; day: string; hour: string },
   partnerBazi: { year: string; month: string; day: string; hour: string },
   myWuxing: Record<string, number>,
@@ -192,7 +192,7 @@ function calcScore(
   return Math.max(1, Math.min(100, Math.round(score)))
 }
 
-function getWuxingConclusion(score: number, myWuxing: Record<string, number>, partnerWuxing: Record<string, number>): string {
+export function getWuxingConclusion(score: number, myWuxing: Record<string, number>, partnerWuxing: Record<string, number>): string {
   const myStrong = Object.entries(myWuxing).sort((a, b) => b[1] - a[1])[0][0]
   const partnerStrong = Object.entries(partnerWuxing).sort((a, b) => b[1] - a[1])[0][0]
 

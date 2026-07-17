@@ -8,7 +8,7 @@
 
 const ZODIAC_ANIMALS = ['鼠', '牛', '虎', '兔', '龍', '蛇', '馬', '羊', '猴', '雞', '狗', '豬']
 
-function getZodiacAnimal(birthDate: string): string {
+export function getZodiacAnimal(birthDate: string): string {
   const year = new Date(birthDate).getFullYear()
   // 1984 為鼠年（甲子年），以此為基準計算
   const baseYear = 1984
