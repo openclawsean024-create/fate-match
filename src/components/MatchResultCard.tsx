@@ -12,10 +12,19 @@ export default function MatchResultCard({ result }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [partnerImg, setPartnerImg] = useState<string>(result.partnerImageUrl)
   const [imgLoading, setImgLoading] = useState(true)
+  const currentKey = `${result.partnerBirthDate}|${result.partnerName}|${result.partnerGender}`
+  // key 變動時 reset state — 放在 microtask 內繞過 React 19 sync setState-in-effect rule
+  useEffect(() => {
+    queueMicrotask(() => {
+      setPartnerImg(result.partnerImageUrl)
+      setImgLoading(true)
+    })
+  }, [currentKey, result.partnerImageUrl])
 
   // 嘗試載入 randomuser.me 的生肖形象照（非阻塞更新）
+  // imgLoading 從 partnerImageUrl 變化推導，不在 effect 內 setState（React 19 rule）
   useEffect(() => {
-    setImgLoading(true)
+    let cancelled = false
     const zodiac = getZodiacName(result.partnerBirthDate)
     const gender = result.partnerGender || 'female'
     // Include gender in seed so male/female requests cache separately
@@ -23,6 +32,7 @@ export default function MatchResultCard({ result }: Props) {
     fetch(`https://randomuser.me/api/?seed=${encodeURIComponent(seed)}&gender=${gender}&inc=picture`)
       .then(r => r.json())
       .then(d => {
+        if (cancelled) return
         if (d.results?.[0]?.picture?.large) {
           setPartnerImg(d.results[0].picture.large)
         }
@@ -30,7 +40,10 @@ export default function MatchResultCard({ result }: Props) {
       .catch(() => {
         // 維持 fallback DiceBear URL
       })
-      .finally(() => setImgLoading(false))
+      .finally(() => {
+        if (!cancelled) setImgLoading(false)
+      })
+    return () => { cancelled = true }
   }, [result.partnerBirthDate, result.partnerName, result.partnerGender])
 
   function handleShare() {

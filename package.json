@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
     "lucide-react": "^1.8.0",

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Plus, Trash2, Users } from 'lucide-react'
 import type { Person } from '../types'
 import { savePartners, loadPartners } from '../utils/storage'
@@ -9,17 +9,13 @@ interface Props {
 }
 
 export default function PartnerList({ selectedId, onSelect }: Props) {
-  const [partners, setPartners] = useState<Person[]>([])
+  const [partners, setPartners] = useState<Person[]>(() => loadPartners())
   const [showForm, setShowForm] = useState(false)
   const [newName, setNewName] = useState('')
   const [newBirth, setNewBirth] = useState('')
   const [formError, setFormError] = useState('')
 
   const today = new Date().toISOString().split('T')[0]
-
-  useEffect(() => {
-    setPartners(loadPartners())
-  }, [])
 
   function validate(): boolean {
     setFormError('')

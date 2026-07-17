@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Heart, BookOpen, Clock, Sparkles, MapPin } from 'lucide-react'
 import MyDataForm from './components/MyDataForm'
 import PartnerList from './components/PartnerList'
@@ -11,14 +11,10 @@ import { loadMyData } from './utils/storage'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('myData')
-  const [myData, setMyData] = useState<Person | null>(null)
+  const [myData, setMyData] = useState<Person | null>(() => loadMyData())
   const [selectedPartner, setSelectedPartner] = useState<Person | null>(null)
   const [selectedResult, setSelectedResult] = useState<MatchResult | null>(null)
   const [matchKey, setMatchKey] = useState(0)
-
-  useEffect(() => {
-    setMyData(loadMyData())
-  }, [])
 
   function handleMyDataSaved() {
     setMyData(loadMyData())

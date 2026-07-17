@@ -1,4 +1,4 @@
-import type { RadarItem } from '../types'
+import type { RadarItem, MatchResult } from '../types'
 
 const HEAVENLY_STEMS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸']
 const EARTHLY_BRANCHES = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
@@ -207,12 +207,7 @@ import { generatePartnerImage } from './photoGenerator'
 export async function runMatch(
   myData: { name: string; birthDate: string; gender?: 'male' | 'female' },
   partner: { name: string; birthDate: string }
-): Promise<{
-  id: string; date: string; myName: string; partnerName: string
-  partnerBirthDate: string
-  score: number; wuxingConclusion: string; explanation: string[]; radarData: RadarItem[]
-  partnerImageUrl: string
-}> {
+): Promise<MatchResult> {
   const myBazi = calcBazi(myData.birthDate)
   const partnerBazi = calcBazi(partner.birthDate)
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { User, Save, Calendar } from 'lucide-react'
 import type { Person } from '../types'
 import { saveMyData, loadMyData } from '../utils/storage'
@@ -8,20 +8,17 @@ interface Props {
 }
 
 export default function MyDataForm({ onSaved }: Props) {
-  const [name, setName] = useState('')
-  const [birthDate, setBirthDate] = useState('')
-  const [gender, setGender] = useState<'male' | 'female'>('female')
+  const [name, setName] = useState(() => {
+    const existing = loadMyData()
+    return existing?.name ?? ''
+  })
+  const [birthDate, setBirthDate] = useState(() => loadMyData()?.birthDate ?? '')
+  const [gender, setGender] = useState<'male' | 'female'>(() => {
+    const existing = loadMyData()
+    return existing?.gender ?? 'female'
+  })
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState('')
-
-  useEffect(() => {
-    const existing = loadMyData()
-    if (existing) {
-      setName(existing.name)
-      setBirthDate(existing.birthDate)
-      if (existing.gender) setGender(existing.gender)
-    }
-  }, [])
 
   const today = new Date().toISOString().split('T')[0]
 

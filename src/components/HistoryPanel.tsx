@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Clock, ChevronRight } from 'lucide-react'
 import type { MatchResult } from '../types'
 import { loadHistory } from '../utils/storage'
@@ -8,11 +8,7 @@ interface Props {
 }
 
 export default function HistoryPanel({ onSelect }: Props) {
-  const [history, setHistory] = useState<MatchResult[]>([])
-
-  useEffect(() => {
-    setHistory(loadHistory())
-  }, [])
+  const [history] = useState<MatchResult[]>(() => loadHistory())
 
   function formatDate(iso: string) {
     const d = new Date(iso)
@@ -31,7 +27,11 @@ export default function HistoryPanel({ onSelect }: Props) {
       </div>
 
       {history.length === 0 && (
-        <p className="text-purple-700 text-sm text-center py-6">尚無記錄，完成配對後可回顧</p>
+        <div className="text-center py-8 space-y-2">
+          <Clock size={32} className="text-purple-700 mx-auto" />
+          <p className="text-purple-400 text-sm font-medium">尚無配對記錄</p>
+          <p className="text-purple-600 text-xs">完成第一次配對後即可在此回顧</p>
+        </div>
       )}
 
       <div className="space-y-2 max-h-80 overflow-y-auto">
