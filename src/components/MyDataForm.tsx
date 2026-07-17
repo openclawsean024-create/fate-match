@@ -93,31 +93,35 @@ export default function MyDataForm({ onSaved }: Props) {
         </div>
 
         <div>
-          <label className="block text-sm text-purple-300 mb-1">姓名</label>
+          <label htmlFor="mydata-name" className="block text-sm text-purple-300 mb-1">姓名</label>
           <input
+            id="mydata-name"
             type="text"
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="輸入你的姓名"
+            aria-required="true"
             className="w-full bg-purple-900/30 border border-purple-500/30 rounded-xl px-4 py-3 text-purple-100 placeholder-purple-700 focus:outline-none focus:border-purple-400 transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm text-purple-300 mb-1">出生日期</label>
+          <label htmlFor="mydata-birthdate" className="block text-sm text-purple-300 mb-1">出生日期</label>
           <div className="relative">
             <input
+              id="mydata-birthdate"
               type="date"
               value={birthDate}
               max={today}
               onChange={e => setBirthDate(e.target.value)}
+              aria-required="true"
               className="w-full bg-purple-900/30 border border-purple-500/30 rounded-xl px-4 py-3 text-purple-100 focus:outline-none focus:border-purple-400 transition-colors"
             />
             <Calendar size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-500 pointer-events-none" />
           </div>
         </div>
 
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+        {error && <p className="text-red-400 text-sm" role="alert">{error}</p>}
 
         <button
           onClick={handleSave}

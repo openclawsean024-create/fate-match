@@ -73,21 +73,27 @@ export default function PartnerList({ selectedId, onSelect }: Props) {
 
       {showForm && (
         <div className="bg-purple-900/40 rounded-xl p-4 mb-4 border border-purple-500/30 space-y-3">
+          <label htmlFor="partner-name" className="sr-only">對象姓名</label>
           <input
+            id="partner-name"
             type="text"
             value={newName}
             onChange={e => setNewName(e.target.value)}
             placeholder="姓名"
+            aria-required="true"
             className="w-full bg-purple-900/50 border border-purple-500/30 rounded-lg px-3 py-2 text-purple-100 placeholder-purple-700 focus:outline-none focus:border-purple-400 transition-colors text-sm"
           />
+          <label htmlFor="partner-birthdate" className="sr-only">對象出生日期</label>
           <input
+            id="partner-birthdate"
             type="date"
             value={newBirth}
             max={today}
             onChange={e => setNewBirth(e.target.value)}
+            aria-required="true"
             className="w-full bg-purple-900/50 border border-purple-500/30 rounded-lg px-3 py-2 text-purple-100 focus:outline-none focus:border-purple-400 transition-colors text-sm"
           />
-          {formError && <p className="text-red-400 text-xs">{formError}</p>}
+          {formError && <p className="text-red-400 text-xs" role="alert">{formError}</p>}
           <div className="flex gap-2">
             <button
               onClick={handleAdd}
