@@ -57,3 +57,5 @@ fate-match/
 ---
 
 **最後更新**: 2026-07-16 (SSOT Factory)
+
+notion-page-id: aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee

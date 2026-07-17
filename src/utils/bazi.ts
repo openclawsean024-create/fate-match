@@ -40,7 +40,7 @@ function getStemFromDay(dateStr: string): { stemIndex: number; branchIndex: numb
   }
 }
 
-function calcBazi(birthDate: string): { year: string; month: string; day: string; hour: string } {
+export function calcBazi(birthDate: string): { year: string; month: string; day: string; hour: string } {
   const d = new Date(birthDate)
   const year = d.getFullYear()
   const month = d.getMonth() + 1
@@ -64,7 +64,7 @@ function calcBazi(birthDate: string): { year: string; month: string; day: string
   }
 }
 
-function calcWuxingBalance(bazi: string): Record<string, number> {
+export function calcWuxingBalance(bazi: string): Record<string, number> {
   const scores: Record<string, number> = { 木: 0, 火: 0, 土: 0, 金: 0, 水: 0 }
   if (bazi.length >= 2) {
     scores[STEM_WUXING[bazi[0]] || '土']++
