@@ -1,2 +1,5 @@
 allowBuilds:
-  esbuild: set this to true or false
+  '@tailwindcss/oxide': true
+  '@types/node': true
+  esbuild: true
+  sharp: true
