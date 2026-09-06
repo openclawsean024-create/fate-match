@@ -1,9 +1,10 @@
-# 命定天子/命定天女 — 規格計劃書 v2.2.1
+# 命定天子/命定天女 — 規格計劃書 v3.0.2
 
-> 版本：v2.2.1｜更新日期：2026-07-19｜維護者：Sophia (CPO) / 對接技術：Alan (CTO)
+> 版本：v3.0.2（patch）｜更新日期：2026-09-06｜維護者：Sophia (CPO) / 對接技術：Alan (CTO)
 > 主題：**MBTI × 八字 × 心理測驗**的單機心理小遊戲（不做配對）
 > Sweet Spot 定位：**單人心理測驗 × 圖卡分享**（放棄雙邊配對市場）
-> 文件版本：v2.2.1（2026-07-19 sweet-spot-driven rewrite）
+> 文件版本：v2.2.1（2026-07-19 sweet-spot-driven rewrite）→ **v3.0.2 fleet patch（infra 對齊）**
+> v3.0.2 patch 重點：套用 SPEC v3.0 契約（§1–§19 全部套用）、加入 9 章標準化結構章節、補 GHA CI workflow、加入 CHANGELOG、加入 test scripts。
 
 ---
 
